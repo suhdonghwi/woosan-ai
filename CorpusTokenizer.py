@@ -1,9 +1,9 @@
 from functools import reduce
 
-from konlpy.tag import Mecab
+from konlpy.tag import Komoran
 
 
-analyzer = Mecab()
+analyzer = Komoran()
 
 
 def make_doc(loader):
