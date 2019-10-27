@@ -1,2 +1,8 @@
 corpus/
+model/
 __pycache__
+
+*.pkl
+*.model
+*.npy
+

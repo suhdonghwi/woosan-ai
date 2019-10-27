@@ -2,8 +2,8 @@ from gensim.models.word2vec import Word2Vec
 
 
 def train_model(tokenized):
-    model = Word2Vec(tokenized, workers=4, iter=300,
-                     size=200, window=5, min_count=10)
+    model = Word2Vec(tokenized, workers=8, iter=5,
+                     size=300, window=10, min_count=20)
     model.init_sims(replace=True)
     return model
 
