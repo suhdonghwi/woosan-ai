@@ -4,9 +4,9 @@ from os.path import isfile, join
 
 
 def extract_script(content):
-    result = re.findall(r'<s .+>(.+)<[/]s>', content)
+    result = re.findall(r'<s [^<]+>(.+)<[/]s>', content)
     result = list(map(lambda line: re.sub(
-        r'<.+>|::', '', line).strip(), result))
+        r'<[^<]+>|::', '', line).strip(), result))
     result = list(filter(lambda line: line != '', result))
     return '\n'.join(result)
 
