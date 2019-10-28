@@ -35,10 +35,8 @@ def train():
 def similar_sentences(model, sent):
     result = []
     tags = analyzer.pos(sent)
-    print(tags)
 
     for (i, (word, pos)) in enumerate(tags):
-        # print(pos)
         if pos in ['NNG', 'NP', 'NNP', 'VV', 'VA', 'VX', 'MAG', 'MAJ']:
             most_similar_words = [
                 word for (word, possibility) in model.wv.most_similar(word)]
@@ -60,5 +58,3 @@ if __name__ == "__main__":
 
         for similar_sent in similar_sentences(model, sent):
             print(similar_sent)
-        # print(model.wv.doesnt_match(word.split()))
-        # print(model.wv.most_similar(word))
