@@ -3,6 +3,7 @@ from os import listdir
 from os.path import isfile, join
 
 
+# 말뭉치 데이터 파일에서 필요한 데이터만 뽑아내는 함수
 def extract_script(content):
     result = re.findall(r'<p>(.+)<[/]p>', content)
     result = list(map(lambda line: re.sub(
@@ -11,6 +12,7 @@ def extract_script(content):
     return '\n'.join(result)
 
 
+# 말뭉치 데이터 경로 (source) 를 받고 목적 경로 (dest) 에 정제된 말뭉치 데이터를 저장하는 함수
 def refine_corpus_file(source, dest):
     with open(source, 'rt', encoding='UTF16') as raw_corpus:
         content = raw_corpus.read()

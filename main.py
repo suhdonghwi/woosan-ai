@@ -32,6 +32,7 @@ def train():
     return model
 
 
+# word2vec 모델과 문장을 받고 유사한 문장을 출력하는 함수
 def similar_sentences(model, sent):
     result = []
     tags = analyzer.pos(sent)

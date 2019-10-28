@@ -6,6 +6,7 @@ from konlpy.tag import Komoran
 analyzer = Komoran()
 
 
+# CorpusLoader를 기반으로 word2vec 모델에 맞게 doc 데이터를 생성해서 반환하는 함수
 def make_doc(loader):
     result = []
     for filepath in loader.fileids():
@@ -18,6 +19,7 @@ def make_doc(loader):
     return result
 
 
+# doc 데이터를 받고 각 문장마다 형태소 분석해서 반환하는 함수
 def tokenize_doc(doc):
     result = []
     size = len(doc)
