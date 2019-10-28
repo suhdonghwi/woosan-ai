@@ -3,10 +3,9 @@ import pickle
 from konlpy.corpus import CorpusLoader
 from konlpy.tag import Komoran
 
-from WordEmbed import train_model, load_model
-from CorpusTokenizer import make_doc, tokenize_doc
-
-analyzer = Komoran()
+from train.word_embed import train_model, load_model
+from corpus.tokenize import make_doc, tokenize_doc
+from utils.sentence import similar_sentences
 
 
 def train():
@@ -17,45 +16,28 @@ def train():
     tokenized = tokenize_doc(make_doc(modern_loader))
 
     print('Dumping doc...')
-    with open('./train/tokenized.pkl', 'wb') as doc_file:
+    with open('./train/data/tokenized.pkl', 'wb') as doc_file:
         pickle.dump(tokenized, doc_file)
 
-    with open('./train/tokenized.pkl', 'rb') as doc_file:
+    with open('./train/data/tokenized.pkl', 'rb') as doc_file:
         tokenized = pickle.load(doc_file)
 
     print('Training...')
     model = train_model(tokenized)
-    model.save("./train/word2vec.model")
+    model.save("./train/data/word2vec.model")
 
     print('Finished! Saved model.')
 
     return model
 
 
-# word2vec 모델과 문장을 받고 유사한 문장을 출력하는 함수
-def similar_sentences(model, sent):
-    result = []
-    tags = analyzer.pos(sent)
-
-    for (i, (word, pos)) in enumerate(tags):
-        if pos in ['NNG', 'NP', 'NNP', 'VV', 'VA', 'VX', 'MAG', 'MAJ']:
-            most_similar_words = [
-                word for (word, possibility) in model.wv.most_similar(word)]
-            for word in most_similar_words[:2]:
-                if pos[0] == analyzer.pos(word)[0][1][0]:
-                    similar_tags = [word if i == j else tag[0]
-                                    for (j, tag) in enumerate(tags)]
-                    result.append(similar_tags)
-
-    return result
-
-
 if __name__ == "__main__":
-    model = load_model('./train/word2vec.model')
+    model = load_model('./train/data/word2vec.model')
+    analyzer = Komoran()
     print(len(model.wv.vocab))
 
     while True:
         sent = str(input('>> '))
 
-        for similar_sent in similar_sentences(model, sent):
+        for similar_sent in similar_sentences(model, analyzer, sent):
             print(similar_sent)
