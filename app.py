@@ -1,5 +1,7 @@
 import json
 from flask import Flask, jsonify, request
+from flask_cors import CORS, cross_origin
+
 from konlpy.tag import Komoran
 
 from utils.sentence import similar_sentences
@@ -7,10 +9,14 @@ from train.word_embed import load_model
 
 analyzer = Komoran()
 model = load_model('./train/data/word2vec.model')
+
 app = Flask(__name__)
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 
 @app.route('/api/similar-sentences', methods=['POST'])
+@cross_origin()
 def check_similars():
     data = request.get_json()
 
